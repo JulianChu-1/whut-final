@@ -1,9 +1,22 @@
-import { Button, Col, Form, Input, Row, Select, Space, Table } from "antd";
+import { Button, Col, Form, Input, Row, Select, Space, Table, TablePaginationConfig } from "antd";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+import styles from "./index.module.css"
 
 export default function Home() {
   const [form] = Form.useForm()
+  const router = useRouter()
+  const [data,setData] = useState()
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 20,
+    showSizeChanger: true,
+    total: 0
+  })
 
-  const handleSearchFinish = (values) => {
+  const handleSearchFinish = (values: any) => {
     console.log(values)
   }
 
@@ -11,20 +24,29 @@ export default function Home() {
     form.resetFields()
   }
 
-  const dataSource = [
-    {
-      key: '1',
-      name: '胡彦斌',
-      age: 32,
-      address: '西湖区湖底公园1号',
-    },
-    {
-      key: '2',
-      name: '胡彦祖',
-      age: 42,
-      address: '西湖区湖底公园1号',
-    },
-  ];
+  const handleBookEdit = () => {
+    router.push('/book/edit/id')
+  }
+
+  const handleTableChange = (pagination: TablePaginationConfig) => {
+    console.log(pagination)
+    setPagination(pagination as any)
+  }
+
+  // const dataSource = [
+  //   {
+  //     key: '1',
+  //     name: '胡彦斌',
+  //     age: 32,
+  //     address: '西湖区湖底公园1号',
+  //   },
+  //   {
+  //     key: '2',
+  //     name: '胡彦祖',
+  //     age: 42,
+  //     address: '西湖区湖底公园1号',
+  //   },
+  // ];
   
   const COLUMNS = [
     {
@@ -44,12 +66,21 @@ export default function Home() {
     },
   ];
 
+  useEffect(() => {
+    async function fetchData() {
+      const res = await axios('http://127.0.0.1:8000')
+      const data = res.data.data
+      setData(data)
+    }
+    fetchData()
+  }, [])
+
   const columns = [...COLUMNS,
     {
       title: "操作", key: "action", render: (_: any, row: any) => {
         return <>
           <Space>
-            <Button type="link">编辑</Button>
+            <Button type="link" onClick={handleBookEdit}>编辑</Button>
             <Button type="link" danger>删除</Button>
           </Space>
         </>
@@ -107,6 +138,13 @@ export default function Home() {
         </Col>
       </Row>
     </Form>
-    <Table dataSource={dataSource} columns={columns} scroll={{x: 1000}}/>;
+    <div className={styles.tableWrap}>
+      <Table 
+        dataSource={data} columns={columns} //数据和列
+        scroll={{x: 1000}} //
+        onChange={handleTableChange} // 分页改变或pageSize触发
+        pagination={{ ...pagination, showTotal: () => `共 ${pagination.total} 条` }} //翻页
+      />;      
+    </div>
   </>;
 }
