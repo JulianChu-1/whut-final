@@ -1,9 +1,10 @@
-import { Button, Col, Form, Input, Row, Select, Space, Table, TablePaginationConfig } from "antd";
+import { Button, Col, Form, Input, Row, Select, Space, Table, TablePaginationConfig, Tooltip } from "antd";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 import styles from "./index.module.css"
+import dayjs from "dayjs";
 
 export default function Home() {
   const [form] = Form.useForm()
@@ -50,26 +51,48 @@ export default function Home() {
   
   const COLUMNS = [
     {
-      title: '姓名',
-      dataIndex: 'name',
-      key: 'name',
+      title: 'id',
+      dataIndex: 'id',
+      key: 'id',
+      width: 155,
     },
     {
-      title: '年龄',
-      dataIndex: 'age',
-      key: 'age',
+      title: '作者',
+      dataIndex: 'screen_name',
+      key: 'screen_name',
+      width: 100,
     },
     {
-      title: '住址',
-      dataIndex: 'address',
-      key: 'address',
+      title: '原文',
+      dataIndex: 'text',
+      key: 'text',
+      ellipsis: true,
+      width: 500,
+      // render: (text: string) => (
+      //   <Tooltip placement="topLeft" title={text}>
+      //     {text}
+      //   </Tooltip>
+      // )
+    },
+    {
+      title: '话题',
+      dataIndex: 'topics',
+      key: 'topics',
+      ellipsis: true,
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'created_at',
+      key: 'created_at',
+      width: 130,
+      render: (text: string) => dayjs(text).format("YYYY-MM-DD"),
     },
   ];
 
   useEffect(() => {
     async function fetchData() {
       const res = await axios('http://127.0.0.1:8000')
-      const data = res.data.data
+      const data = res.data
       setData(data)
     }
     fetchData()

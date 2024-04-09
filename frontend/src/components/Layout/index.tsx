@@ -45,12 +45,11 @@ const items2: MenuProps["items"] = [
 const ITEMS = [
   {
     // icon: React.createElement(icon),
-    label: "图书管理",
-    key: "book",
-
+    label: "微博管理",
+    key: "weibo",
     children: [
-      { label: "图书列表", key: "/book" },
-      { label: "图书添加", key: "/book/add" },
+      { label: "微博爬取", key: "/weibo/add" },
+      { label: "微博列表", key: "/weibo" },
     ],
   },
   {

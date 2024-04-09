@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+import database
+
 app = FastAPI()
 
 app.add_middleware(
@@ -13,19 +15,5 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
-    return {
-        'data': [
-        {
-        'key': '1',
-        'name': '胡彦斌',
-        'age': 32,
-        'address': '西湖区湖底公园1号',
-        },
-        {
-        'key': '2',
-        'name': '胡彦祖',
-        'age': 42,
-        'address': '西湖区湖底公园1号',
-        },
-        ]
-    }
+    response = await database.fetch_all_weibo()
+    return response
