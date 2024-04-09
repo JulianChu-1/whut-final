@@ -1,0 +1,20 @@
+2024-03-02 16:24:24,121 - ERROR - weibo.py[:1968] - Port must be an integer between 0 and 65535: "27017'"
+Traceback (most recent call last):
+  File "C:\Users\legion\Desktop\final\code\weibo-crawler\weibo.py", line 1930, in get_pages
+    if self.get_user_info() != 0:
+  File "C:\Users\legion\Desktop\final\code\weibo-crawler\weibo.py", line 422, in get_user_info
+    self.user_to_database()
+  File "C:\Users\legion\Desktop\final\code\weibo-crawler\weibo.py", line 349, in user_to_database
+    self.user_to_mongodb()
+  File "C:\Users\legion\Desktop\final\code\weibo-crawler\weibo.py", line 297, in user_to_mongodb
+    self.info_to_mongodb("user", user_list)
+  File "C:\Users\legion\Desktop\final\code\weibo-crawler\weibo.py", line 1423, in info_to_mongodb
+    client = MongoClient(self.mongodb_URI)
+  File "C:\Tool\Anaconda\envs\final\lib\site-packages\pymongo\mongo_client.py", line 788, in __init__
+    seeds.update(uri_parser.split_hosts(entity, port))
+  File "C:\Tool\Anaconda\envs\final\lib\site-packages\pymongo\uri_parser.py", line 391, in split_hosts
+    nodes.append(parse_host(entity, port))
+  File "C:\Tool\Anaconda\envs\final\lib\site-packages\pymongo\uri_parser.py", line 151, in parse_host
+    raise ValueError(f"Port must be an integer between 0 and 65535: {port!r}")
+ValueError: Port must be an integer between 0 and 65535: "27017'"
+2024-03-02 16:25:52,241 - WARNING - weibo.py[:1436] - 系统中可能没有安装或启动MongoDB数据库，请先根据系统环境安装或启动MongoDB，再运行程序
