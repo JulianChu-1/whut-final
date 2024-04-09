@@ -5,6 +5,7 @@ import axios from "axios";
 
 import styles from "./index.module.css"
 import dayjs from "dayjs";
+import { getWeiboList } from "@/api/weibo";
 
 export default function Home() {
   const [form] = Form.useForm()
@@ -91,8 +92,8 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchData() {
-      const res = await axios('http://127.0.0.1:8000')
-      const data = res.data
+      const list = await getWeiboList()
+      const {data} = list
       setData(data)
     }
     fetchData()
