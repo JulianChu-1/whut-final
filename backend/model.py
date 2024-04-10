@@ -19,3 +19,7 @@ class Weibo(BaseModel):
     # reposts_count: str
     # at_users : str
     # full_created_at : str
+
+class WeiboUser(BaseModel):
+    id : str
+

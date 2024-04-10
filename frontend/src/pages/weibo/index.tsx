@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Row, Select, Space, Table, TablePaginationConfig, Tooltip } from "antd";
+import { Button, Col, DatePicker, DatePickerProps, Form, Input, Row, Select, Space, Table, TablePaginationConfig, Tooltip } from "antd";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -18,8 +18,12 @@ export default function Home() {
     total: 0
   })
 
+  const onChange: DatePickerProps['onChange'] = (date, dateString) => {
+    console.log(date, dateString);
+  };
+
   const handleSearchFinish = (values: any) => {
-    console.log(values)
+    getWeiboList(values)
   }
 
   const handleSearchReset = () => {
@@ -33,6 +37,7 @@ export default function Home() {
   const handleTableChange = (pagination: TablePaginationConfig) => {
     console.log(pagination)
     setPagination(pagination as any)
+    
   }
 
   // const dataSource = [
@@ -118,19 +123,14 @@ export default function Home() {
       form={form}
       onFinish={handleSearchFinish}
       initialValues={{
-        name: '',
-        authoe: '',
-        category: ''
+        screen_name: '',
+        category: '',
+        created_at: ''
       }}
     >
       <Row gutter={24}>
         <Col span={5}>
-          <Form.Item name="name" label="名称">
-            <Input placeholder="请输入" allowClear/>
-          </Form.Item>
-        </Col>
-        <Col span={5}>
-          <Form.Item name="author" label="作者">
+          <Form.Item name="screen_name" label="作者">
             <Input placeholder="请输入" allowClear/>
           </Form.Item>
         </Col>
@@ -146,6 +146,11 @@ export default function Home() {
               { value: "disabled", label: "disabled"},
             ]}
             />
+          </Form.Item>
+        </Col>
+        <Col span={5}>
+          <Form.Item name="created_at" label="创建时间">
+            <DatePicker allowClear onChange={onChange}/>
           </Form.Item>
         </Col>
         <Col span={9}>
