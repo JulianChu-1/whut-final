@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import styles from "./index.module.css"
 import dayjs from "dayjs";
 import { getWeiboList } from "@/api/weibo";
-import { WeiboQueryType } from "@/type";
+import { WeiboQueryType } from "@/types";
 
 export default function Home() {
   const [form] = Form.useForm()
@@ -110,6 +110,8 @@ export default function Home() {
       const list = await getWeiboList({ current: 1, pageSize: pagination.pageSize})
       const {data} = list
       setData(data)
+      console.log(data)
+      setPagination({...pagination, current: 1, total: data.length})
     }
     fetchData()
   }, [])
@@ -183,7 +185,7 @@ export default function Home() {
         scroll={{x: 1000}} //
         onChange={handleTableChange} // 分页改变或pageSize触发
         pagination={{ ...pagination, showTotal: () => `共 ${pagination.total} 条` }} //翻页
-      />;      
+      />      
     </div>
-  </>;
+  </>
 }

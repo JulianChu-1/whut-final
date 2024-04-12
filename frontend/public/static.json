@@ -1,0 +1,27 @@
+{
+    "options": [
+        {
+            "values": "entertainment",
+            "lables": "娱乐"
+        },
+        {
+            "values": "military",
+            "lables": "军事"
+        },
+        {
+            "values": "sport",
+            "lables": "体育"
+        },
+        {
+            "values": "education",
+            "lables": "教育"
+        },
+        {
+            "values": "finance",
+            "lables": "财经"
+        }
+    ],
+    "ds": [
+        
+    ]
+}

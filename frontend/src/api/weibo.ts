@@ -1,5 +1,4 @@
-import { WeiboQueryType } from "@/type";
-import axios from "axios";
+import { WeiboFormType, WeiboQueryType, WeiboType } from "@/types";
 import request from "@/utils/request";
 import qs from "qs";
 
@@ -21,4 +20,12 @@ export async function getWeiboList(params?: WeiboQueryType) {
     }
 
     return res;
+}
+
+export async function weiboAdd(params: WeiboType) {
+    return request.post("/weibos", params)
+}
+
+export async function weiboUpdate() {
+    
 }

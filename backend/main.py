@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
-import database
+from model import Weibo
+from database import weibo
 
 app = FastAPI()
 
@@ -18,7 +18,13 @@ app.add_middleware(
 @app.get("/weibos/")
 async def get_weibo(screen_name: str | None = None, category: str | None = None, created_at : str | None = None):
     response = {}
-    response['data'] = await database.fetch_weibo(screen_name, category, created_at)
+    response['data'] = await weibo.fetch_weibo(screen_name, category, created_at)
     response['total'] = len(response['data'])
     return response
+
+@app.post("/weibos/")
+async def create_weibo(data: Weibo):
+    response = await weibo.create_weibo(data.dict())
+    if response:
+        return {"inserted_id": response}
 

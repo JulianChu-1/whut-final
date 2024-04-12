@@ -1,10 +1,6 @@
-import styles from "@/styles/Home.module.css";
-import { Inter } from "next/font/google";
-import Head from "next/head";
-import Image from "next/image";
+import WeiboForm from "@/components/WeiboForm";
 
-const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
-  return <>book add</>;
+export default function Book() {
+  return <WeiboForm title="微博手动添加"/>;
 }
