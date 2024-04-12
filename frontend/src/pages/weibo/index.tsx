@@ -1,26 +1,27 @@
-import { Button, Col, DatePicker, DatePickerProps, Form, Input, Row, Select, Space, Table, TablePaginationConfig, Tooltip } from "antd";
+import { Button, Col, DatePicker, Form, Input, Row, Select, Space, Table, TablePaginationConfig, Tooltip } from "antd";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 import styles from "./index.module.css"
 import dayjs from "dayjs";
 import { getWeiboList } from "@/api/weibo";
+import { WeiboQueryType } from "@/type";
 
 export default function Home() {
   const [form] = Form.useForm()
   const router = useRouter()
   const [data,setData] = useState()
-  const [pagination, setPagination] = useState({
+  const [pagination, setPagination] = useState<TablePaginationConfig>({
     current: 1,
     pageSize: 20,
     showSizeChanger: true,
     total: 0
   })
 
-  const handleSearchFinish = async (values: any) => {
-    const res = getWeiboList(values)
-    setData((await res).data)
+  const handleSearchFinish = async (values: WeiboQueryType) => {
+    const res = await getWeiboList({...values, current: 1, pageSize: pagination.pageSize})
+    setData(res.data)
+    setPagination({...pagination, current: 1, total: res.total})
   }
 
   const handleSearchReset = () => {
@@ -32,9 +33,15 @@ export default function Home() {
   }
 
   const handleTableChange = (pagination: TablePaginationConfig) => {
-    console.log(pagination)
-    setPagination(pagination as any)
-    
+    // console.log(pagination)
+    setPagination(pagination)
+    const query = form.getFieldValue('search')
+
+    getWeiboList({
+      current: pagination.current,
+      pageSize: pagination.pageSize,
+      ...query
+    })
   }
 
   // const dataSource = [
@@ -100,7 +107,7 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchData() {
-      const list = await getWeiboList()
+      const list = await getWeiboList({ current: 1, pageSize: pagination.pageSize})
       const {data} = list
       setData(data)
     }

@@ -17,6 +17,8 @@ app.add_middleware(
 
 @app.get("/weibos/")
 async def get_weibo(screen_name: str | None = None, category: str | None = None, created_at : str | None = None):
-    response = await database.fetch_weibo(screen_name, category, created_at)
+    response = {}
+    response['data'] = await database.fetch_weibo(screen_name, category, created_at)
+    response['total'] = len(response['data'])
     return response
 
