@@ -13,14 +13,10 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-fake_items_db = [{"item_name": "Foo"}, {"item_name": "Bar"}, {"item_name": "Baz"}]
+# fake_items_db = [{"item_name": "Foo"}, {"item_name": "Bar"}, {"item_name": "Baz"}]
 
 @app.get("/weibos/")
-async def get_weibos():
-    response = await database.fetch_all_weibo()
+async def get_weibo(screen_name: str | None = None, category: str | None = None, created_at : str | None = None):
+    response = await database.fetch_weibo(screen_name, category, created_at)
     return response
 
-@app.get("/weibo/")
-async def get_weibo(screen_name: str = "", created_at: str = ""):
-    response = await database.fetch_weibo("陶喆","2024-01-08")
-    return response

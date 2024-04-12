@@ -8,6 +8,7 @@ class Weibo(BaseModel):
     text : str
     created_at : str
     topics : str
+    category : str
     # bid : str
     # article_url : str
     # pics : str

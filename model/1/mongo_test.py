@@ -1,24 +1,14 @@
 import pymongo
 
 client = pymongo.MongoClient(host='127.0.0.1:27017')
-my_collection = client['test']['test01']
+in_collection = client['test']['weibo']
+to_collection = client['whut_final']['weibo']
+fields = {'id': 1, 'screen_name': 1, 'text': 1, 'created_at': 1, 'topics': 1,}
+weibos = []
 
-item_1 = {
-  "_id" : "U1IT00001",
-  "item_name" : "Blender",
-  "max_discount" : "10%",
-  "batch_number" : "RR450020FRG",
-  "price" : 340,
-  "category" : "kitchen appliance"
-}
+for weibo in in_collection.find({}, fields):
+    new_weibo = weibo.copy()
+    new_weibo['category'] = '娱乐'
+    weibos.append(new_weibo)
 
-item_2 = {
-  "_id" : "U1IT00002",
-  "item_name" : "Egg",
-  "category" : "food",
-  "quantity" : 12,
-  "price" : 36,
-  "item_description" : "brown country eggs"
-}
-
-my_collection.insert_many([item_1,item_2])
+to_collection.insert_many(weibos)

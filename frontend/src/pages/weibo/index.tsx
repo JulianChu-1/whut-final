@@ -18,12 +18,9 @@ export default function Home() {
     total: 0
   })
 
-  const onChange: DatePickerProps['onChange'] = (date, dateString) => {
-    console.log(date, dateString);
-  };
-
-  const handleSearchFinish = (values: any) => {
-    getWeiboList(values)
+  const handleSearchFinish = async (values: any) => {
+    const res = getWeiboList(values)
+    setData((await res).data)
   }
 
   const handleSearchReset = () => {
@@ -84,7 +81,13 @@ export default function Home() {
       title: '话题',
       dataIndex: 'topics',
       key: 'topics',
-      ellipsis: true,
+      ellipsis: true, //显示省略号
+    },
+    {
+      title: '分类',
+      dataIndex: 'category',
+      key: 'category',
+      width: 100,
     },
     {
       title: '创建时间',
@@ -150,7 +153,7 @@ export default function Home() {
         </Col>
         <Col span={5}>
           <Form.Item name="created_at" label="创建时间">
-            <DatePicker allowClear onChange={onChange}/>
+            <DatePicker allowClear/>
           </Form.Item>
         </Col>
         <Col span={9}>
