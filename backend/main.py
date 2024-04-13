@@ -15,6 +15,10 @@ app.add_middleware(
 
 # fake_items_db = [{"item_name": "Foo"}, {"item_name": "Bar"}, {"item_name": "Baz"}]
 
+@app.get("/")
+async def root():
+    return {"data": "hello world"}
+
 @app.get("/weibos/")
 async def get_weibo(screen_name: str | None = None, category: str | None = None, created_at : str | None = None):
     response = {}

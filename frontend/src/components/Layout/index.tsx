@@ -55,13 +55,9 @@ const ITEMS = [
   },
   {
     // icon: React.createElement(icon),
-    label: "借阅管理",
-    key: "borrow",
+    label: "博主兴趣分析",
+    key: "/analysis",
 
-    children: [
-      { label: "借阅列表", key: "/borrow" },
-      { label: "借阅添加", key: "/borrow/add" },
-    ],
   },
   {
     // icon: React.createElement(icon),
@@ -75,7 +71,7 @@ const ITEMS = [
   },
   {
     // icon: React.createElement(icon),
-    label: "用户管理",
+    label: "账号管理",
     key: "user",
 
     children: [
