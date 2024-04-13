@@ -1,11 +1,12 @@
-import { Button, Col, DatePicker, Form, Input, Row, Select, Space, Table, TablePaginationConfig, Tooltip } from "antd";
+import { Button, Col, DatePicker, Form, Input, Row, Select, Space, Table, TablePaginationConfig, Tooltip, message } from "antd";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import styles from "./index.module.css"
 import dayjs from "dayjs";
-import { getWeiboList } from "@/api/weibo";
-import { WeiboQueryType } from "@/types";
+import { getWeiboList, weiboDelete } from "@/api/weibo";
+import { WeiboQueryType, WeiboType } from "@/types";
+import Content from "@/components/Content";
 
 export default function Home() {
   const [form] = Form.useForm()
@@ -17,6 +18,14 @@ export default function Home() {
     showSizeChanger: true,
     total: 0
   })
+
+  async function fetchData(values?: WeiboQueryType) {
+    const list = await getWeiboList({ ...values, current: pagination.current, pageSize: pagination.pageSize})
+    const {data} = list
+    setData(data)
+    // console.log(data)
+    setPagination({...pagination, current: 1, total: data.length})
+  }
 
   const handleSearchFinish = async (values: WeiboQueryType) => {
     const res = await getWeiboList({...values, current: 1, pageSize: pagination.pageSize})
@@ -30,6 +39,13 @@ export default function Home() {
 
   const handleBookEdit = () => {
     router.push('/book/edit/id')
+  }
+
+  const handleWeiboDelete = async (id : string) => {
+    await weiboDelete(id);
+    message.success("删除成功");
+    fetchData()
+    form.resetFields()
   }
 
   const handleTableChange = (pagination: TablePaginationConfig) => {
@@ -106,14 +122,8 @@ export default function Home() {
   ];
 
   useEffect(() => {
-    async function fetchData() {
-      const list = await getWeiboList({ current: 1, pageSize: pagination.pageSize})
-      const {data} = list
-      setData(data)
-      console.log(data)
-      setPagination({...pagination, current: 1, total: data.length})
-    }
     fetchData()
+    console.log(form.getFieldsValue)
   }, [])
 
   const columns = [...COLUMNS,
@@ -122,14 +132,32 @@ export default function Home() {
         return <>
           <Space>
             <Button type="link" onClick={handleBookEdit}>编辑</Button>
-            <Button type="link" danger>删除</Button>
+            <Button type="link" danger 
+              onClick={() => {
+                handleWeiboDelete(row.id)
+              }}>
+              删除</Button>
           </Space>
         </>
       }
     }
   ]
 
-  return <>
+  return (
+    <Content
+      title="微博列表"
+      operation={
+          <Button 
+          type="primary"
+          onClick={() =>{
+            router.push("/weibo/add")
+          }
+          }
+          >
+            手动添加
+          </Button>
+      }
+    >
       <Form
       name="search"
       form={form}
@@ -139,7 +167,7 @@ export default function Home() {
         category: '',
         created_at: ''
       }}
-    >
+      >
       <Row gutter={24}>
         <Col span={5}>
           <Form.Item name="screen_name" label="作者">
@@ -187,5 +215,6 @@ export default function Home() {
         pagination={{ ...pagination, showTotal: () => `共 ${pagination.total} 条` }} //翻页
       />      
     </div>
-  </>
+    </Content>
+  );
 }

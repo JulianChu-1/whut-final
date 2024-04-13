@@ -15,32 +15,32 @@ import styles from "./index.module.css";
 
 const { Header, Content, Sider } = AntdLayout;
 
-const items1: MenuProps["items"] = ["1", "2", "3"].map((key) => ({
-  key,
-  label: `nav ${key}`,
-}));
+// const items1: MenuProps["items"] = ["1", "2", "3"].map((key) => ({
+//   key,
+//   label: `nav ${key}`,
+// }));
 
-const items2: MenuProps["items"] = [
-  UserOutlined,
-  LaptopOutlined,
-  NotificationOutlined,
-].map((icon, index) => {
-  const key = String(index + 1);
+// const items2: MenuProps["items"] = [
+//   UserOutlined,
+//   LaptopOutlined,
+//   NotificationOutlined,
+// ].map((icon, index) => {
+//   const key = String(index + 1);
 
-  return {
-    key: `sub${key}`,
-    icon: React.createElement(icon),
-    label: `subnav ${key}`,
+//   return {
+//     key: `sub${key}`,
+//     icon: React.createElement(icon),
+//     label: `subnav ${key}`,
 
-    children: new Array(4).fill(null).map((_, j) => {
-      const subKey = index * 4 + j + 1;
-      return {
-        key: subKey,
-        label: `option${subKey}`,
-      };
-    }),
-  };
-});
+//     children: new Array(4).fill(null).map((_, j) => {
+//       const subKey = index * 4 + j + 1;
+//       return {
+//         key: subKey,
+//         label: `option${subKey}`,
+//       };
+//     }),
+//   };
+// });
 
 const ITEMS = [
   {
@@ -97,6 +97,9 @@ export function Layout({ children } : {children : ReactNode}) {
   const handleMenuClick: MenuProps["onClick"] = ({ key }) => {
     router.push(key);
   };
+
+  const activeMenu = router.pathname;
+
   return (
     <>
       <Head>
@@ -131,8 +134,9 @@ export function Layout({ children } : {children : ReactNode}) {
             <Sider width={200}>
               <Menu
                 mode="inline"
-                defaultSelectedKeys={["/book"]}
-                defaultOpenKeys={["book"]}
+                defaultSelectedKeys={["/weibo"]}
+                defaultOpenKeys={["weibo"]}
+                selectedKeys={[activeMenu]}
                 style={{ height: "100%", borderRight: 0 }}
                 items={ITEMS}
                 onClick={handleMenuClick}

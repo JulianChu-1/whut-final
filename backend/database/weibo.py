@@ -26,3 +26,7 @@ async def fetch_weibo(screen_name=None, category = None, created_at=None):
 async def create_weibo(weibo):
     result = await collection.insert_one(weibo)
     return str(result.inserted_id)
+
+async def remove_weibo(id):
+    await collection.delete_one({"id":id})
+    return True

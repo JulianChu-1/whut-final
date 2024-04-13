@@ -4,7 +4,7 @@ export interface WeiboType {
     screen_name: string;
     category: string;
     topics: string;
-    created_at: string;
+    created_at: any;
     text: string;
 }
 

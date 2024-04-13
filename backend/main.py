@@ -28,7 +28,14 @@ async def get_weibo(screen_name: str | None = None, category: str | None = None,
 
 @app.post("/weibos/")
 async def create_weibo(data: Weibo):
+    print(data)
     response = await weibo.create_weibo(data.dict())
     if response:
         return {"inserted_id": response}
+    
+@app.delete("/weibos/{id}")
+async def delete_weibo(id):
+    response = await weibo.remove_weibo(id)
+    if response:
+        return "Delete successfully"
 

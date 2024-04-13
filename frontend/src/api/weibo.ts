@@ -29,3 +29,7 @@ export async function weiboAdd(params: WeiboType) {
 export async function weiboUpdate() {
     
 }
+
+export async function weiboDelete(id: string) {
+    return request.delete(`/weibos/${id}`);
+}

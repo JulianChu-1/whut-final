@@ -17,6 +17,6 @@ const Content: React.FC<
       <div className={styles.content}>{children}</div>
     </>
   );
-};
+}
 
 export default Content;

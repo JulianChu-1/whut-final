@@ -40,6 +40,9 @@ const WeiboForm: React.FC<WeiboFormType> = ({ title, editData }) => {
 //   }, [editData, form]);
 
   const handleFinish = async (values: WeiboType) => {
+    // if (values.created_at){
+    //   values.created_at = dayjs(values.created_at).valueOf();
+    // }
     console.log(values);
     await weiboAdd(values);
     message.success("手动添加成功");
