@@ -57,17 +57,11 @@ const ITEMS = [
     // icon: React.createElement(icon),
     label: "博主兴趣分析",
     key: "/analysis",
-
   },
   {
     // icon: React.createElement(icon),
-    label: "分类管理",
-    key: "category",
-
-    children: [
-      { label: "分类列表", key: "/category" },
-      { label: "分类添加", key: "/category/add" },
-    ],
+    label: "模型展示",
+    key: "/model",
   },
   {
     // icon: React.createElement(icon),
