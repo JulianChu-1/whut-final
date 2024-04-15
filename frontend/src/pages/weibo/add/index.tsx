@@ -1,4 +1,4 @@
-import WeiboForm from "@/components/WeiboForm";
+import { WeiboForm } from "@/components";
 
 
 export default function Book() {

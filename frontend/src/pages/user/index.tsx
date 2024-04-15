@@ -29,15 +29,15 @@ const Option = Select.Option;
 const COLUMNS = [
   {
     title: "账号",
-    dataIndex: "name",
-    key: "name",
+    dataIndex: "username",
+    key: "username",
     ellipsis: true,
     width: 200,
   },
   {
     title: "用户名",
-    dataIndex: "nickName",
-    key: "nickName",
+    dataIndex: "nickname",
+    key: "nickname",
     ellipsis: true,
     width: 200,
   },
@@ -92,6 +92,7 @@ export default function Book() {
             type="link"
             onClick={() => {
               setEditData(row);
+              //console.log(row);
               router.push(`/user/edit/${row._id}`);
             }}
           >
@@ -122,11 +123,11 @@ export default function Book() {
 
   const fetchData = useCallback(
     (search?: UserQueryType) => {
-      const { name, status } = search || {};
+      const { username, status } = search || {};
       getUserList({
         current: pagination.current as number,
         pageSize: pagination.pageSize as number,
-        ...(name && { name }),
+        ...(username && { username }),
         ...(status && { status }),
       }).then((res) => {
         setList(res.data);
@@ -192,7 +193,7 @@ export default function Book() {
         >
           <Row gutter={24}>
             <Col span={5}>
-              <Form.Item name="name" label="名称">
+              <Form.Item name="username" label="名称">
                 <Input placeholder="请输入" allowClear />
               </Form.Item>
             </Col>
@@ -227,6 +228,7 @@ export default function Book() {
           <Table
             rowKey="_id"
             dataSource={list}
+            //dataSource={dataSource}
             columns={columns}
             onChange={handleTableChange}
             pagination={{

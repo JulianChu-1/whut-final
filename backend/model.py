@@ -1,3 +1,4 @@
+from datetime import datetime
 from pydantic import BaseModel
 
 class Weibo(BaseModel):
@@ -24,3 +25,11 @@ class Weibo(BaseModel):
 class WeiboUser(BaseModel):
     id : str
 
+class User(BaseModel):
+    username : str
+    nickname : str
+    password : str
+    sex : str
+    status : str
+    role : str
+    # created_at: str = None
