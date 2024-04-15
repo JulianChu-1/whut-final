@@ -10,7 +10,7 @@ const UserAdd: React.FC<null> = () => {
   useEffect(() => {
     (async () => {
       const res = await getUserDetail(router.query.id as string);
-      setData(res.data);
+      setData(res[0]);
     })();
   }, [router.query.id]);
 

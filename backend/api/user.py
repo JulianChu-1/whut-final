@@ -14,7 +14,7 @@ async def fetch_user(nickname=None, status = None, id = None):
     if status:
         query["status"] = status
     if id:
-        query["id"] = int(id)
+        query["id"] = id
     
     print(query)
     cursor = collection.find(query).sort("created_at", -1)

@@ -7,7 +7,7 @@ export async function getWeiboList(params?: WeiboQueryType) {
 
     if (typeof params === "undefined"){
         res = request.get(
-            `/weibos?${qs.stringify(params)}`
+            `/api/weibos?${qs.stringify(params)}`
         );
     }
     else{
@@ -16,14 +16,14 @@ export async function getWeiboList(params?: WeiboQueryType) {
             created_at: params.created_at ? params.created_at.format(dateFormat) : null
         });
         const queryString = qs.stringify(formattedParams);
-        res = request.get(`/weibos?${queryString}`);
+        res = request.get(`/api/weibos?${queryString}`);
     }
 
     return res;
 }
 
 export async function weiboAdd(params: WeiboType) {
-    return request.post("/weibos", params)
+    return request.post("/api/weibos", params)
 }
 
 export async function weiboUpdate() {
@@ -31,5 +31,5 @@ export async function weiboUpdate() {
 }
 
 export async function weiboDelete(id: string) {
-    return request.delete(`/weibos/${id}`);
+    return request.delete(`/api/weibos/${id}`);
 }

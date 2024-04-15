@@ -3,25 +3,25 @@ import request from "@/utils/request";
 import qs from "qs";
 
 export const setLogout = async () => {
-  await request.get(`/logout`);
+  await request.get(`/api/logout`);
 };
 
 export const getUserList = (params?: UserQueryType) => {
-  return request.get(`/users?${qs.stringify(params)}`);
+  return request.get(`/api/users?${qs.stringify(params)}`);
 };
 
 export const getUserDetail = (id: string) => {
-  return request.get(`/users/${id}`);
+  return request.get(`/api/users/${id}`);
 };
 
 export const userDelete = (id: string) => {
-  return request.delete(`/users/${id}`);
+  return request.delete(`/api/users/${id}`);
 };
 
 export const userAdd = (params: UserType) => {
-  return request.post("/users", params);
+  return request.post("/api/users", params);
 };
 
 export const userUpdate = (id: string, params: UserType) => {
-  return request.put(`/users/${id}`, params);
+  return request.put(`/api/users/${id}`, params);
 };

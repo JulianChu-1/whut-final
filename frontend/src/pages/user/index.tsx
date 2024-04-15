@@ -99,7 +99,6 @@ export default function Book() {
             type="link"
             onClick={() => {
               setEditData(row);
-              console.log(row);
               router.push(`/user/edit/${row.id}`);
             }}
           >
