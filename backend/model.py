@@ -34,3 +34,7 @@ class User(BaseModel):
     status : str
     role : str
     created_at: str = None
+
+class UserLogin(BaseModel):
+    username : str
+    password : str

@@ -35,14 +35,14 @@ const COLUMNS = [
     width: 100,
   },
   {
-    title: "账号",
+    title: "用户名",
     dataIndex: "username",
     key: "username",
     ellipsis: true,
     width: 200,
   },
   {
-    title: "用户名",
+    title: "昵称",
     dataIndex: "nickname",
     key: "nickname",
     ellipsis: true,

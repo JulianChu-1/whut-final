@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from model import Weibo, User
+from model import Weibo, User, UserLogin
 from api import weibo, user
 
 app = FastAPI()
@@ -28,7 +28,7 @@ async def get_weibo(screen_name: str | None = None, category: str | None = None,
 
 @app.post("/api/weibos/")
 async def add_weibo(data: Weibo):
-    print(data)
+    # print(data)
     response = await weibo.create_weibo(data.dict())
     if response:
         return {"inserted_id": response}
@@ -56,3 +56,9 @@ async def add_user(data: User):
 async def get_user_detail(id):
     response = await user.fetch_user(id = id)
     return response
+
+@app.post("/api/login")
+async def user_login(data: UserLogin):
+    data = data.dict()
+    response = await user.login(**data)
+    return True if response else None

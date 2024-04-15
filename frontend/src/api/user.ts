@@ -1,6 +1,10 @@
-import { UserQueryType, UserType } from "@/types";
+import { UserLoginType, UserQueryType, UserType } from "@/types";
 import request from "@/utils/request";
 import qs from "qs";
+
+export async function login(params: Pick<UserLoginType, "username" | "password">) {
+  return request.post("/api/login", params);
+}
 
 export const setLogout = async () => {
   await request.get(`/api/logout`);

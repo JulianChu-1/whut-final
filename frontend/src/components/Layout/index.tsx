@@ -1,46 +1,43 @@
+import { setLogout } from "@/api";
+import { USER_ROLE } from "@/constants";
+import { useCurrentUser } from "@/utils/hoos";
+import { DownOutlined } from "@ant-design/icons";
 import {
-  LaptopOutlined,
-  NotificationOutlined,
+  ProfileOutlined,
+  SnippetsOutlined,
+  SolutionOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { DownOutlined } from "@ant-design/icons";
-import { MenuProps, Space } from "antd";
-import { Layout as AntdLayout, Breadcrumb, Dropdown, Menu } from "antd";
+import {
+  Layout as AntdLayout,
+  Dropdown,
+  Menu,
+  MenuProps,
+  Space,
+  message,
+} from "antd";
 import Head from "next/head";
 import Image from "next/image";
-import { useRouter } from "next/router";
-import React, { ReactNode } from "react";
+import Link from "next/link";
+import router, { useRouter } from "next/router";
+import React, { PropsWithChildren, ReactElement, ReactNode, useMemo } from "react";
 
 import styles from "./index.module.css";
 
-const { Header, Content, Sider } = AntdLayout;
+const { Header, Sider, Content } = AntdLayout;
 
-// const items1: MenuProps["items"] = ["1", "2", "3"].map((key) => ({
-//   key,
-//   label: `nav ${key}`,
-// }));
+// const Layout: React.FC<
+//   PropsWithChildren & { title?: string; operation?: ReactElement }
+// > = ({ children, title = "图书列表", operation }) => {
+//   const router = useRouter();
+//   const user = useCurrentUser();
 
-// const items2: MenuProps["items"] = [
-//   UserOutlined,
-//   LaptopOutlined,
-//   NotificationOutlined,
-// ].map((icon, index) => {
-//   const key = String(index + 1);
+//   const activeMenu = router.pathname;
+//   const defaultOpenKeys = [activeMenu.split("/")[1]];
 
-//   return {
-//     key: `sub${key}`,
-//     icon: React.createElement(icon),
-//     label: `subnav ${key}`,
-
-//     children: new Array(4).fill(null).map((_, j) => {
-//       const subKey = index * 4 + j + 1;
-//       return {
-//         key: subKey,
-//         label: `option${subKey}`,
-//       };
-//     }),
+//   const handleChangeMenu: MenuProps["onClick"] = (e) => {
+//     router.push(e.key);
 //   };
-// });
 
 const ITEMS = [
   {
@@ -77,12 +74,23 @@ const ITEMS = [
 
 const USER_ITEMS: MenuProps["items"] = [
   {
-    label: "用户中心",
     key: "1",
+    label: <Link href={`/user`}>个人中心</Link>,
   },
   {
-    label: "登出",
     key: "2",
+    label: (
+      <span
+        onClick={async () => {
+          await setLogout();
+          localStorage.removeItem("user");
+          message.success("退出成功");
+          router.push("/login");
+        }}
+      >
+        退出
+      </span>
+    ),
   },
 ];
 
@@ -105,13 +113,13 @@ export function Layout({ children } : {children : ReactNode}) {
       <main className={styles.main}>
         <AntdLayout>
           <Header className={styles.header}>
-            <Image
+            {/* <Image
               src="/logo.svg"
               width={30}
               height={30}
               alt="logo"
               className={styles.logo}
-            />
+            /> */}
             微博用户兴趣分析系统
             <span className={styles.user}>
               <Dropdown menu={{ items: USER_ITEMS }}>

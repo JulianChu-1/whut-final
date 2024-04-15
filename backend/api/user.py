@@ -17,7 +17,7 @@ async def fetch_user(nickname=None, status = None, id = None):
         query["id"] = id
     
     print(query)
-    cursor = collection.find(query).sort("created_at", -1)
+    cursor = collection.find(query).sort("id", 1)
 
     async for document in cursor:
         users.append(User(**document))
@@ -29,3 +29,8 @@ async def create_user(user):
     user['created_at'] = time
     result = await collection.insert_one(user)
     return str(result.inserted_id)
+
+async def login(username: str, password: str):
+    login_user = await collection.find_one({"username": username})
+    print(login_user)
+    return True if password == login_user['password'] else False
