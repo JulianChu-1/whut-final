@@ -26,10 +26,11 @@ class WeiboUser(BaseModel):
     id : str
 
 class User(BaseModel):
+    id : str
     username : str
     nickname : str
     password : str
     sex : str
     status : str
     role : str
-    # created_at: str = None
+    created_at: str = None

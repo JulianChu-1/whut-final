@@ -9,6 +9,8 @@ export interface UserType {
   role: USER_ROLE;
   status: USER_STATUS;
   sex: USER_SEX;
+  created_at?: string;
+  id: string;
 }
 
 export interface UserLoginType {
@@ -17,7 +19,7 @@ export interface UserLoginType {
 }
 
 export interface UserQueryType {
-  username?: string;
+  nickname?: string;
   status?: USER_STATUS;
   current?: number;
   pageSize?: number;

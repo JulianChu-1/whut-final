@@ -1,8 +1,7 @@
-from datetime import datetime
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from model import Weibo, User
-from database import weibo, user
+from api import weibo, user
 
 app = FastAPI()
 
@@ -28,7 +27,7 @@ async def get_weibo(screen_name: str | None = None, category: str | None = None,
     return response
 
 @app.post("/weibos/")
-async def create_weibo(data: Weibo):
+async def add_weibo(data: Weibo):
     print(data)
     response = await weibo.create_weibo(data.dict())
     if response:
@@ -48,10 +47,12 @@ async def get_user(nickname: str | None = None, status: str | None = None):
     return response
 
 @app.post("/users/")
-async def create_user(data):
-    # data_dict = data.dict()
-    # current_time = datetime.now()
-    # data_dict['created_at'] = current_time.strftime("%Y-%m-%dT%H:%M:%S")
+async def add_user(data: User):
     response = await user.create_user(data.dict())
     if response:
         return {"inserted_id": response}
+    
+@app.get("/users/{id}")
+async def get_user_detail(id):
+    response = await user.fetch_user(id = id)
+    return response

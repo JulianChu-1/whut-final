@@ -28,6 +28,13 @@ const Option = Select.Option;
 
 const COLUMNS = [
   {
+    title: "id",
+    dataIndex: "id",
+    key: "id",
+    ellipsis: true,
+    width: 100,
+  },
+  {
     title: "账号",
     dataIndex: "username",
     key: "username",
@@ -92,8 +99,8 @@ export default function Book() {
             type="link"
             onClick={() => {
               setEditData(row);
-              //console.log(row);
-              router.push(`/user/edit/${row._id}`);
+              console.log(row);
+              router.push(`/user/edit/${row.id}`);
             }}
           >
             编辑
@@ -111,7 +118,7 @@ export default function Book() {
             type="link"
             danger
             onClick={() => {
-              handleDeleteModal(row._id as string);
+              handleDeleteModal(row.id as string);
             }}
           >
             删除
@@ -123,11 +130,11 @@ export default function Book() {
 
   const fetchData = useCallback(
     (search?: UserQueryType) => {
-      const { username, status } = search || {};
+      const { nickname, status } = search || {};
       getUserList({
         current: pagination.current as number,
         pageSize: pagination.pageSize as number,
-        ...(username && { username }),
+        ...(nickname && { nickname }),
         ...(status && { status }),
       }).then((res) => {
         setList(res.data);
@@ -145,14 +152,14 @@ export default function Book() {
     router.push("/user/add");
   };
 
-  const handleDeleteModal = (_id: string) => {
+  const handleDeleteModal = (id: string) => {
     Modal.confirm({
       title: "确认删除？",
       icon: <ExclamationCircleFilled />,
       okText: "确定",
       cancelText: "取消",
       async onOk() {
-        await userDelete(_id);
+        await userDelete(id);
         message.success("删除成功");
         fetchData(form.getFieldsValue());
       },
@@ -168,7 +175,7 @@ export default function Book() {
   };
 
   const handleStatusUpdate = async (row: UserType) => {
-    await userUpdate(row._id as string, {
+    await userUpdate(row.id as string, {
       ...row,
       status: row.status === USER_STATUS.ON ? USER_STATUS.OFF : USER_STATUS.ON,
     });
@@ -193,7 +200,7 @@ export default function Book() {
         >
           <Row gutter={24}>
             <Col span={5}>
-              <Form.Item name="username" label="名称">
+              <Form.Item name="nickname" label="名称">
                 <Input placeholder="请输入" allowClear />
               </Form.Item>
             </Col>
@@ -226,7 +233,7 @@ export default function Book() {
         </Form>
         <div className={styles.tableWrap}>
           <Table
-            rowKey="_id"
+            rowKey="id"
             dataSource={list}
             //dataSource={dataSource}
             columns={columns}

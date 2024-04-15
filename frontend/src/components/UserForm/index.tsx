@@ -61,7 +61,7 @@ const UserForm: React.FC<UserFormProps> = ({
           <Form.Item
             label="账号"
             extra="用于登陆的账号"
-            name="name"
+            name="username"
             rules={[
               {
                 required: true,
