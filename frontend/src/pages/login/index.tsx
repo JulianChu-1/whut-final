@@ -3,6 +3,7 @@ import classnames from "classnames";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 import styles from "./index.module.css";
 import { login } from "@/api";
@@ -10,24 +11,31 @@ import { login } from "@/api";
 export default function Login() {
   const router = useRouter();
   const handleFinish = async (values: { username: string; password: string }) => {
-    const res = await login(values);
-    // {data:{id:xx,name:xxx}}
-    if (res) {
-      message.success("登陆成功");
-      router.push("/weibo");
+    try{
+      const res = await login(values);
+      if (res) {
+        message.success("登录成功");
+        await router.push("/weibo");
+      }
     }
+    catch (err){
+      message.error("账号密码错误");
+    }
+
+    // {data:{id:xx,name:xxx}}
+
   };
 
   return (
     <>
       <Head>
-        <title>登陆</title>
-        <meta name="description" content="图书馆里系统" />
+        <title>登录</title>
+        <meta name="description" content="微博兴趣分析系统" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <header className={styles.header}>
+        {/* <header className={styles.header}>
           <Image
             className={styles.img}
             width={100}
@@ -35,43 +43,45 @@ export default function Login() {
             src="/logo.svg"
             alt="logo"
           />
-          图书管理系统
-        </header>
+          微博用户兴趣分析系统
+        </header> */}
         <div className={styles.form}>
+          <h1>
+            Login
+          </h1>
           <Form
             name="basic"
             initialValues={{ username: "", password: "" }}
             onFinish={handleFinish}
-            layout="vertical"
+            //layout="vertical"
             autoComplete="off"
             size="large"
           >
             <Form.Item
               name="username"
-              label={<span className={styles.label}>账号</span>}
-              rules={[{ required: true, message: "请输入用户名" }]}
+              rules={[{ required: true, message: "Please enter username" }]}
             >
-              <Input placeholder="请输入用户名" />
+              <Input placeholder="Please enter username" prefix={<UserOutlined />} />
             </Form.Item>
             <Form.Item
               name="password"
-              label={<span className={styles.label}>密码</span>}
-              rules={[{ required: true, message: "请输入密码" }]}
+              rules={[{ required: true, message: "Please enter password" }]}
+              className="formItemInner"
             >
-              <Input.Password placeholder="请输入密码" />
+              <Input.Password placeholder="Please enter password" prefix={<LockOutlined />}/>
             </Form.Item>
             <Form.Item>
               <Button
-                type="primary"
+                type="default"
                 htmlType="submit"
-                block
                 className={classnames(styles.btn, styles.loginBtn)}
                 size="large"
               >
-                登陆
+                Login
               </Button>
             </Form.Item>
           </Form>
+
         </div>
       </main>
     </>
