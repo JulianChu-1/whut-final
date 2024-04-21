@@ -1,3 +1,4 @@
+import datetime
 from typing import List
 from pydantic import BaseModel
 
@@ -10,6 +11,7 @@ class Weibo(BaseModel):
     created_at : str
     topics : str
     category : str
+    # spider_time : str = None
     # bid : str
     # article_url : str
     # pics : str
@@ -41,9 +43,9 @@ class UserLogin(BaseModel):
     password : str
 
 class WeiboSpider(BaseModel):
-    weibo_user_id : str
-    since_date : str
-    start_page : str
+    user_id_list : str
+    since_date : int
+    start_page : int
     cookie : str = None
     
 

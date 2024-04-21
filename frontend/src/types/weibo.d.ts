@@ -1,6 +1,6 @@
 export interface WeiboType {
     _id?: string; // mongo数据库的id
-    id: string;
+    id: number;
     screen_name: string;
     category: string;
     topics: string;
@@ -19,4 +19,11 @@ export interface WeiboQueryType {
 export interface WeiboFormType {
     title: string;
     editData?: WeiboType;
+}
+
+export interface WeiboSpiderType {
+    user_id_list: string;
+    since_date: number;
+    start_page: string;
+    cookie: string;
 }

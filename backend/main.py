@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from model import Weibo, User, UserLogin
+from model import Weibo, User, UserLogin, WeiboSpider
 from api import weibo, user
 
 app = FastAPI()
@@ -34,10 +34,11 @@ async def add_weibo(data: Weibo):
         return {"inserted_id": response}
     
 @app.post("/api/weibos/spider")
-async def spider_weibo(data: Weibo):
+async def spider_weibo(data: WeiboSpider):
+    print(data)
     response = await weibo.spider_weibo(data.dict())
     if response:
-        return {"inserted_id": response}
+        return response
     
 @app.delete("/api/weibos/{id}")
 async def delete_weibo(id):

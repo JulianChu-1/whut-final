@@ -23,7 +23,7 @@ export async function getWeiboList(params?: WeiboQueryType) {
 }
 
 export async function weiboSpider(params: any) {
-    return request.post("/api/weibo/spider", params);
+    return request.post("/api/weibos/spider", params);
 }
 
 export async function weiboAdd(params: WeiboType) {
