@@ -1,3 +1,4 @@
+from typing import List
 from pydantic import BaseModel
 
 class Weibo(BaseModel):
@@ -33,7 +34,17 @@ class User(BaseModel):
     status : str
     role : str
     created_at: str = None
+    spider_time: str = None
 
 class UserLogin(BaseModel):
     username : str
     password : str
+
+class WeiboSpider(BaseModel):
+    weibo_user_id : str
+    since_date : str
+    start_page : str
+    cookie : str = None
+    
+
+    

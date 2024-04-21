@@ -22,6 +22,10 @@ export async function getWeiboList(params?: WeiboQueryType) {
     return res;
 }
 
+export async function weiboSpider(params: any) {
+    return request.post("/api/weibo/spider", params);
+}
+
 export async function weiboAdd(params: WeiboType) {
     return request.post("/api/weibos", params)
 }

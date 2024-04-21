@@ -33,6 +33,12 @@ async def add_weibo(data: Weibo):
     if response:
         return {"inserted_id": response}
     
+@app.post("/api/weibos/spider")
+async def spider_weibo(data: Weibo):
+    response = await weibo.spider_weibo(data.dict())
+    if response:
+        return {"inserted_id": response}
+    
 @app.delete("/api/weibos/{id}")
 async def delete_weibo(id):
     response = await weibo.remove_weibo(id)
