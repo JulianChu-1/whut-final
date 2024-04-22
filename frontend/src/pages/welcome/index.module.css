@@ -1,0 +1,18 @@
+
+.top {
+    background-color: black;
+    height: 35%;
+}
+
+.topRow {
+    height: 100%;
+}
+
+.bottomLeft {
+    height: 65%;
+}
+
+.bottomRowLeft {
+    height: 100%;
+}
+

@@ -23,6 +23,7 @@ import router, { useRouter } from "next/router";
 import React, { PropsWithChildren, ReactElement, ReactNode, useMemo } from "react";
 
 import styles from "./index.module.css";
+import { Footer } from "antd/es/layout/layout";
 
 const { Header, Sider, Content } = AntdLayout;
 
@@ -42,6 +43,16 @@ const { Header, Sider, Content } = AntdLayout;
 const ITEMS = [
   {
     // icon: React.createElement(icon),
+    label: "欢迎",
+    key: "/welcome",
+  },
+  {
+    // icon: React.createElement(icon),
+    label: "模型展示",
+    key: "/model",
+  },
+  {
+    // icon: React.createElement(icon),
     label: "微博管理",
     key: "weibo",
     children: [
@@ -54,11 +65,6 @@ const ITEMS = [
     // icon: React.createElement(icon),
     label: "博主兴趣分析",
     key: "/analysis",
-  },
-  {
-    // icon: React.createElement(icon),
-    label: "模型展示",
-    key: "/model",
   },
   {
     // icon: React.createElement(icon),
@@ -154,6 +160,9 @@ export function Layout({ children } : {children : ReactNode}) {
             </Sider>
             <AntdLayout className={styles.sectionContent}>
               <Content className={styles.content}>{children}</Content>
+              {/* <Footer className={styles.footer}>
+                Weibo Show ©{new Date().getFullYear()} Created by Julian
+              </Footer> */}
             </AntdLayout>
           </AntdLayout>
         </AntdLayout>
