@@ -12,9 +12,13 @@ export default function Login() {
   const router = useRouter();
   const handleFinish = async (values: { username: string; password: string }) => {
     try{
-      const res = await login(values);
+      var res = await login(values);
+      console.log(res);
       if (res) {
         message.success("登录成功");
+
+        localStorage.setItem("user", JSON.stringify(res))
+
         await router.push("/weibo");
       }
     }

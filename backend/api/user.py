@@ -2,6 +2,8 @@ import motor.motor_asyncio
 from datetime import datetime
 from model import User
 
+from fastapi.security import OAuth2PasswordBearer
+
 client = motor.motor_asyncio.AsyncIOMotorClient('mongodb://localhost:27017/')
 database = client['whut_final']
 collection = database['user']
@@ -32,5 +34,8 @@ async def create_user(user):
 
 async def login(username: str, password: str):
     login_user = await collection.find_one({"username": username})
-    print(login_user)
-    return True if password == login_user['password'] else False
+    # print(login_user)
+    if password == login_user['password']:
+        return {"nickname": login_user['nickname']}
+    else:
+        return None

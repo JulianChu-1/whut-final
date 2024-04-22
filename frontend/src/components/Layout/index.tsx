@@ -100,6 +100,14 @@ export function Layout({ children } : {children : ReactNode}) {
     router.push(key);
   };
 
+  let user = null
+  if (typeof window !== 'undefined') {
+    const userStorage = localStorage?.getItem('user')
+    if (userStorage) {
+      user = JSON.parse(userStorage)
+    }
+  }
+
   const activeMenu = router.pathname;
 
   return (
@@ -125,7 +133,7 @@ export function Layout({ children } : {children : ReactNode}) {
               <Dropdown menu={{ items: USER_ITEMS }}>
                 <a onClick={(e) => e.preventDefault()}>
                   <Space>
-                    用户名
+                    {user?.nickname ? user.nickname : '用户名'}
                     <DownOutlined />
                   </Space>
                 </a>
