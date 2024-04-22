@@ -1,5 +1,5 @@
 import { Card, Col, Row } from "antd";
-import GaugeChart from "./chart_one";
+import Page from "./chart_one";
 import styles from "./index.module.css"
 
 export default function Home() {
@@ -8,7 +8,7 @@ export default function Home() {
     <Row gutter={16}>
         <Col span={8}>
         <Card title="Card title" bordered={false}>
-          <GaugeChart />
+          <Page />
         </Card>
         </Col>
         <Col span={8}>
