@@ -18,7 +18,7 @@ async def fetch_user(nickname=None, status = None, id = None):
     if id:
         query["id"] = id
     
-    print(query)
+    # print(query)
     cursor = collection.find(query).sort("id", 1)
 
     async for document in cursor:

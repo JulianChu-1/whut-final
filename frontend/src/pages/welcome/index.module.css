@@ -1,18 +1,28 @@
+.topCardContainer {
+    height: 40%;
+    margin-bottom: 20px;
+  }
+  
+  .bottomCardContainer {
+    height: 60%;
+  }
+  
+  .ant-card {
+    margin-bottom: 16px;
+  }
 
-.top {
-    background-color: black;
-    height: 35%;
-}
-
-.topRow {
-    height: 100%;
-}
-
-.bottomLeft {
-    height: 65%;
-}
-
-.bottomRowLeft {
-    height: 100%;
-}
-
+  .hotSearchList {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  
+  .hotSearchItem {
+    font-size: medium;
+    flex: 1 0 auto;
+    /* width: 50%; */
+    margin-bottom: 6px;
+    padding: 5px;
+  }

@@ -63,7 +63,7 @@ const ITEMS = [
   },
   {
     // icon: React.createElement(icon),
-    label: "博主兴趣分析",
+    label: "博主分析",
     key: "/analysis",
   },
   {

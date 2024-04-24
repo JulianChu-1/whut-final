@@ -37,3 +37,12 @@ export async function weiboUpdate() {
 export async function weiboDelete(id: string) {
     return request.delete(`/api/weibos/${id}`);
 }
+
+export async function analysisWeibo(user_id: string) {
+    console.log(user_id);
+    return request.get(`/api/weibos/analysis?user_id=${user_id}`);
+}
+
+export async function hotWeiboSpider() {
+    return request.get(`/api/weibos/hotSpider`);
+}
