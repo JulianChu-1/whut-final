@@ -19,7 +19,7 @@ export default function Login() {
 
         localStorage.setItem("user", JSON.stringify(res))
 
-        await router.push("/weibo");
+        await router.push("/welcome");
       }
     }
     catch (err){

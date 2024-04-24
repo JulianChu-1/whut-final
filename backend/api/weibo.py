@@ -61,7 +61,7 @@ async def hot_spider():
     response = requests.get("https://www.weibo.com/ajax/side/hotSearch", headers=headers)
     response = json.loads(response.text)
 
-    for i in range(6):
+    for i in range(7):
         datas.append(response['data']['realtime'][i]['word'])
 
     return datas

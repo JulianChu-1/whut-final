@@ -209,7 +209,8 @@ export default function Home() {
     </Form>
     <div className={styles.tableWrap}>
       <Table 
-        dataSource={data} columns={columns} //数据和列
+        dataSource={data} 
+        columns={columns} //数据和列
         scroll={{x: 1000}} //
         onChange={handleTableChange} // 分页改变或pageSize触发
         pagination={{ ...pagination, showTotal: () => `共 ${pagination.total} 条` }} //翻页

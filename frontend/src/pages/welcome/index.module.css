@@ -1,9 +1,10 @@
 .topCardContainer {
-    height: 40%;
+    height: 25%;
     margin-bottom: 20px;
   }
   
   .bottomCardContainer {
+    margin-top: 4%;
     height: 60%;
   }
   
@@ -25,4 +26,9 @@
     /* width: 50%; */
     margin-bottom: 6px;
     padding: 5px;
+  }
+
+  .innerCard {
+    width: 90%;
+
   }
