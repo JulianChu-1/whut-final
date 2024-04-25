@@ -4,9 +4,12 @@ import { hotWeiboSpider } from "@/api";
 import React, { useEffect, useState } from "react";
 import { set } from "date-fns";
 import dynamic from "next/dynamic";
+import Counter from "./counter";
+import { useRouter } from "next/router";
 
 export default function Home() {
   const [hotWeiboData, setHotWeiboData] = useState([]);
+  const router = useRouter()
 
   const DynamicChart = dynamic(() => import('./chart_one'), {
     ssr: false // Tell Next.js not to render this on the server
@@ -41,6 +44,10 @@ export default function Home() {
   useEffect(() => {
     getHotData()
   }, [])
+
+  const handleWeiboSpider = () => {
+    router.push("/weibo/spider")
+  }
   
 
   return (
@@ -48,25 +55,36 @@ export default function Home() {
       <div className={styles.topCardContainer}>
         <Row gutter={[16, 16]}>
           <Col span={8}>
-            <Card title="欢迎使用" bordered={false}>
+            <Card title="欢迎使用" bordered={true} extra={<a href="#" className={styles.cardLink}>More</a>}>
               Card Content
             </Card>
           </Col>
           <Col span={8}>
-            <Card title="基本信息" bordered={false}>
-              {/* <Card.Grid style={{ width: '100%' }}>
-                Content
+            <Card title="基本信息" bordered={true}>
+              <Card.Grid style={{ width: '100%', fontSize: "20px" }}>
+                <Row gutter={16}>
+                  <Col style={{width: '50%', textAlign: 'center', fontSize: "15px"}}>
+                    当前爬取微博总数
+                  </Col>
+                  <Col style={{width: '50%', textAlign: 'center', fontSize: "20px"}}>
+                    <Counter counts={500}/>
+                  </Col>
+                </Row> 
               </Card.Grid>
               <Card.Grid style={{ width: '100%' }}>
-                Content
+                <Row gutter={16}>
+                  <Col style={{width: '50%', textAlign: 'center', fontSize: "15px"}}>
+                    当前用户总数
+                  </Col>
+                  <Col style={{width: '50%', textAlign: 'center', fontSize: "20px", fontStyle: "italic"}}>
+                    <Counter counts={10}/>
+                  </Col>
+                </Row> 
               </Card.Grid>
-              <Card.Grid style={{ width: '100%' }}>
-                Content
-              </Card.Grid> */}
             </Card>
           </Col>
           <Col span={8}>
-            <Card title="模型简介" bordered={false}>
+            <Card title="模型简介" bordered={true}>
               Card content
             </Card>
           </Col>
@@ -75,13 +93,18 @@ export default function Home() {
       <div className={styles.bottomCardContainer}>
         <Row gutter={[16, 16]}>
           <Col span={16}>
-            <Card title="最近每日爬取量" bordered={false} 
-                  tabList={tabList} activeTabKey={activeTabKey1} onTabChange={onTab1Change}>
+            <Card title="最近每日爬取量" 
+                  bordered={true} 
+                  extra={<a href="#" className={styles.cardLink} onClick={handleWeiboSpider}>我也要爬</a>}
+                  tabList={tabList} 
+                  activeTabKey={activeTabKey1} 
+                  onTabChange={onTab1Change}
+            >
               <DynamicChart />
             </Card>
           </Col>
           <Col span={8}>
-            <Card title="微博热搜话题" bordered={false}>
+            <Card title="微博热搜话题" bordered={true}>
               <div className={styles.hotSearchList}>
                 {hotWeiboData.map((topic, index) => (
                   <div key={index} className={styles.hotSearchItem}>

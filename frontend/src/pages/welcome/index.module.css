@@ -32,3 +32,12 @@
     width: 90%;
 
   }
+
+  .cardLink {
+    color: #1890FF;
+    text-decoration: none;
+  }
+
+  .cardLink:hover {
+    color: #D1E9F9;
+  }
