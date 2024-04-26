@@ -1,7 +1,13 @@
 import {useEffect, useRef, useState} from 'react';
- 
-const Counter = ({counts, time = 500}) => {  //counts：传入的数字，time: 默认500毫秒之内整个动画完成
+
+interface CounterProps {
+    counts: number;
+    time?: number;
+}
+
+const Counter: React.FC<CounterProps> = ({counts, time = 500}) => {  //counts：传入的数字，time: 默认500毫秒之内整个动画完成
     const [count, setCount] = useState(0);
+    
     useEffect(() => {
         let startTime = Date.now();
         let duration = 2000;
@@ -18,7 +24,9 @@ const Counter = ({counts, time = 500}) => {  //counts：传入的数字，time: 
         }, 16);
         return () => clearInterval(timer);
     }, [counts]);
-    return count;
- 
+
+    return <span>{count}</span>;
+
 }
+
 export default Counter;

@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer
 
-from routers import user, weibo
+from routers import user, weibo, analysis
 
 app = FastAPI()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -19,6 +19,7 @@ app.add_middleware(
 
 app.include_router(user.router)
 app.include_router(weibo.router)
+app.include_router(analysis.router)
 
 @app.get("/")
 async def root():

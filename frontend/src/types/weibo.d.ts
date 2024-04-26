@@ -27,3 +27,8 @@ export interface WeiboSpiderType {
     start_page: string;
     cookie: string;
 }
+
+export interface datasByTime {
+    type: string;
+    value: number;
+}

@@ -21,7 +21,7 @@ async def add_weibo(data: Weibo):
     
 @router.post("/api/weibos/spider")
 async def spider_weibo(data: WeiboSpider):
-    print(data)
+    # print(data)
     response = await weibo.spider_weibo(data.dict())
     if response:
         return response

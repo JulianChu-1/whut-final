@@ -86,6 +86,7 @@ export default function Home() {
       title: '作者',
       dataIndex: 'screen_name',
       key: 'screen_name',
+      ellipsis: true,
       width: 100,
     },
     {

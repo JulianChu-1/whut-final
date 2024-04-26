@@ -46,3 +46,11 @@ export async function analysisWeibo(user_id: string) {
 export async function hotWeiboSpider() {
     return request.get(`/api/weibos/hotSpider`);
 }
+
+export async function spiderVolumeByDays() {
+    return request.get(`/api/weibos/spiderVolumeByDays`);
+}
+
+export async function spiderVolumeByYear() {
+    return request.get(`/api/weibos/spiderVolumeByYear`);
+}

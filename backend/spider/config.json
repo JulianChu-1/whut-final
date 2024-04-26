@@ -3,7 +3,7 @@
         "2609400635"
     ],
     "only_crawl_original": 1,
-    "since_date": 16,
+    "since_date": 1,
     "start_page": 1,
     "write_mode": [
         "mongo"

@@ -12,3 +12,4 @@ export enum USER_SEX {
   MALE = "male",
   FEMALE = "female",
 }
+

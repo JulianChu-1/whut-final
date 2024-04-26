@@ -88,10 +88,13 @@ async def spider_weibo(weibo: dict):
         now = datetime.now()
         document['category'] = '娱乐'
         document['spider_time'] = now.strftime("%Y-%m-%dT%H:%M:%S")
-        if not weibo_collection.find_one({"id": document["id"]}):
+        existing_doc = await weibo_collection.find_one({"id": document["id"]})
+        if existing_doc:
+            continue
+        else:
             weibos.append(document)
     
-    # print(weibos)
+    print(weibos)
     weibo_collection.insert_many(weibos)
 
     return len(weibos)
