@@ -3,8 +3,6 @@ import motor.motor_asyncio
 from datetime import datetime, timedelta, date
 import json
 
-from model import Weibo, WeiboSpider
-
 router = APIRouter()
 
 client = motor.motor_asyncio.AsyncIOMotorClient('mongodb://localhost:27017/')
@@ -40,8 +38,6 @@ async def spider_volume_by_days():
         daily_counts.append({'type': date_str, 'value': count})
     
     return daily_counts
-
-
 
 @router.get("/api/weibos/spiderVolumeByYear")
 async def spider_volume_by_year():
@@ -84,3 +80,7 @@ async def main_info():
         'poster': count_poster,
     }
     return response
+
+@router.get("/api/analysis/{user_id}")
+async def analysis_by_posterid(user_id):
+    return 1

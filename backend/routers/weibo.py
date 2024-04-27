@@ -31,11 +31,6 @@ async def delete_weibo(id):
     response = await weibo.remove_weibo(id)
     if response:
         return "Delete successfully"
-    
-@router.get("/api/weibos/analysis")
-async def analysis_weibo_by_user_id(user_id):
-    response = await weibo.analysis_weibo(user_id)
-    return response
 
 @router.get("/api/weibos/hotSpider")
 async def hot_spider():
