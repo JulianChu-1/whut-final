@@ -83,4 +83,38 @@ async def main_info():
 
 @router.get("/api/analysis/{user_id}")
 async def analysis_by_posterid(user_id):
-    return 1
+    pie_data, word_data = [], []
+    main_data = [
+        { 'label': "博主id"},
+        { 'label': "用户昵称"},
+        { 'label': "微博数"},
+        { 'label': "粉丝数"},
+        { 'label': "用户描述"},
+        { 'label': "用户简介"},
+    ]
+
+    # main_data完善
+    fields = {'id': 1, 'screen_name': 1, 'statuses_count': 1, 'followers_count': 1, 'description': 1, 'verified_reason': 1,}
+    poster = await collection_poster.find_one({'id': user_id}, fields)
+    count_main_info = 0
+
+    for key, value in list(poster.items())[1:]:
+        main_data[count_main_info]['value'] = value
+        count_main_info += 1
+
+    # pie_data
+    pie_data = [
+    { 'type': '分类一', 'value': 27 },
+    { 'type': '分类二', 'value': 25 },
+    { 'type': '分类三', 'value': 18 },
+    { 'type': '分类四', 'value': 15 },
+    { 'type': '分类五', 'value': 10 },
+    { 'type': '其他', 'value': 5 },
+    ]
+    word_data = [{'text': 'fd', 'value': 2}, {'text': 'we', 'value': 3}]
+
+    return {
+        'main_data': main_data,
+        'pie_data': pie_data,
+        'word_data': word_data,
+    }

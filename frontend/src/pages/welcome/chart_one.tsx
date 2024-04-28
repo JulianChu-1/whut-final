@@ -1,9 +1,6 @@
 import React from 'react';
 import { Column } from '@ant-design/charts';
-
-interface DemoColumnProps {
-  data: { type: string; value: number }[];
-}
+import { DemoColumnProps } from '@/types';
 
 const DemoColumn: React.FC<DemoColumnProps> = ({ data }) => {
   const config = {

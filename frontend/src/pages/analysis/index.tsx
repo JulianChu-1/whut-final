@@ -1,34 +1,48 @@
 import { Button, Col, Form, Input, Row, Space, Mentions, Card, List, Typography } from "antd";
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import debounce from 'lodash.debounce';
+import dynamic from "next/dynamic";
 
 import { analysisWeibo } from "@/api";
 import { Content } from "@/components";
-import styles from "./index.module.css"
-const { Text } = Typography;
+import styles from "./index.module.css";
+import { AnalysisPosterType, DemoPieProps, DemoWordCloudProps, MainInfoItemType } from "@/types";
 
 export default function Home() {
   const [form] = Form.useForm()
+  const [data, setData] = useState({ main_data: [], pie_data: [], word_data: [] });
+  const [markedData, setMarkedData] = useState<MainInfoItemType[]>([]);
+  const [metaData, setMetaData] = useState<MainInfoItemType[]>([]);
 
-  const data = [
-    { label: "博主id", value: "123" },
-    { label: "用户昵称", value: "陶喆" },
-    { label: "微博数", value: 485 },
-    { label: "用户描述", value: "Bonbon出生、新專輯籌備、巡迴唱會籌備，忙翻了！" },
-    { label: "用户简介", value: "台湾音乐人，代表作《爱很简单》《黑色柳丁》《就是爱你》等" },
-  ]
-  const markedData = data.slice(0, 3);
-  const metaData = data.slice(3);
+  const PieChart = dynamic<DemoPieProps>(() => import('./pie_chart'), {
+    ssr: false // Tell Next.js not to render this on the server
+  });
 
-  const handleAnalysisFinish = async (value : any) => {
+  const WordChart = dynamic<DemoWordCloudProps>(() => import('./word_chart'), {
+    ssr: false 
+  });
+  // const main_data = [
+  //   { label: "博主id", value: "123" },
+  //   { label: "用户昵称", value: "陶喆" },
+  //   { label: "微博数", value: '456' },
+  //   { label: "用户描述", value: "Bonbon出生、新專輯籌備、巡迴唱會籌備，忙翻了！" },
+  //   { label: "用户简介", value: "台湾音乐人，代表作《爱很简单》《黑色柳丁》《就是爱你》等" },
+  // ]
+
+  // const markedData = data_mainInfo.slice(0, 3);
+  // const metaData = data_mainInfo.slice(3);
+
+  const handleAnalysisFinish = async (value : AnalysisPosterType) => {
     const datas = await analysisWeibo(value.user_id)
-    console.log(datas)
+    setData(datas)
+    setMarkedData(datas.main_data.slice(0, 4));
+    setMetaData(datas.main_data.slice(4));
   }
 
   return <>
     <Content title="博主分析">
-    <Row>
-      <Col>
+    <Row gutter={[16,16]}>
+      <Col style={{width: '30%'}}>
         <Form
           name="analysis"
           form={form}
@@ -81,8 +95,15 @@ export default function Home() {
           />
         </Card>
       </Col>
-      <Col>
-
+      <Col style={{width: '35%'}}>
+        <Card title = "pie" >
+          <PieChart data={data.pie_data}/>
+        </Card>
+      </Col>
+      <Col style={{width: '35%'}}>
+        <Card title = "WordCloud" >
+          <WordChart data={data.word_data}/>
+        </Card>
       </Col>
     </Row>
     </Content>
