@@ -1,7 +1,10 @@
+import re
 from fastapi import APIRouter
 import motor.motor_asyncio
 from datetime import datetime, timedelta, date
+from collections import Counter
 import json
+import jieba
 
 router = APIRouter()
 
@@ -96,6 +99,14 @@ async def analysis_by_posterid(user_id):
     # main_data完善
     fields = {'id': 1, 'screen_name': 1, 'statuses_count': 1, 'followers_count': 1, 'description': 1, 'verified_reason': 1,}
     poster = await collection_poster.find_one({'id': user_id}, fields)
+
+    if not poster:
+        return {
+            'main_data': None,
+            'pie_data': None,
+            'word_data': None,
+        }
+    
     count_main_info = 0
 
     for key, value in list(poster.items())[1:]:
@@ -103,15 +114,33 @@ async def analysis_by_posterid(user_id):
         count_main_info += 1
 
     # pie_data
-    pie_data = [
-    { 'type': '分类一', 'value': 27 },
-    { 'type': '分类二', 'value': 25 },
-    { 'type': '分类三', 'value': 18 },
-    { 'type': '分类四', 'value': 15 },
-    { 'type': '分类五', 'value': 10 },
-    { 'type': '其他', 'value': 5 },
+    pipeline_pie = [
+        {"$match": {"user_id": int(user_id)}}, 
+        {"$group": {                        
+            "_id": "$category",            
+            "count": {"$sum": 1}            
+        }}
     ]
-    word_data = [{'text': 'fd', 'value': 2}, {'text': 'we', 'value': 3}]
+
+    async for doc in collection_weibo.aggregate(pipeline_pie):
+        pie_data.append({'type': doc['_id'], 'value': doc['count']})
+
+    #word_data
+    stop_list = []
+
+    try:
+        stopwords = open('stopwords.txt', 'r', encoding='utf-8')
+    except FileNotFoundError:
+        stopwords = []
+    
+    for line in stopwords:
+        line = re.sub(u'\n|\\r', '', line)
+        stop_list.append(line)
+    
+    user_tweets = collection_weibo.find({"user_id": int(user_id)}, {"text": 1, "_id": 0})
+    texts = [tweet['text'] async for tweet in user_tweets] 
+    
+    
 
     return {
         'main_data': main_data,

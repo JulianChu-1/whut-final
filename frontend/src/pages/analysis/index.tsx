@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Row, Space, Mentions, Card, List, Typography } from "antd";
+import { Button, Col, Form, Input, Row, Space, Mentions, Card, List, Typography, message } from "antd";
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import debounce from 'lodash.debounce';
 import dynamic from "next/dynamic";
@@ -34,6 +34,10 @@ export default function Home() {
 
   const handleAnalysisFinish = async (value : AnalysisPosterType) => {
     const datas = await analysisWeibo(value.user_id)
+    if (!datas.main_data) {
+      message.error("未找到该用户");
+      return 0;
+    }
     setData(datas)
     setMarkedData(datas.main_data.slice(0, 4));
     setMetaData(datas.main_data.slice(4));

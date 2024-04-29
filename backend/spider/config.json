@@ -1,10 +1,10 @@
 {
     "user_id_list": [
-        "2609400635"
+        "0"
     ],
     "only_crawl_original": 1,
-    "since_date": 1,
-    "start_page": 1,
+    "since_date": 0,
+    "start_page": 0,
     "write_mode": [
         "mongo"
     ],

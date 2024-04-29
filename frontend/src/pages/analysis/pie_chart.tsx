@@ -12,7 +12,7 @@ const DemoPie: React.FC<DemoPieProps> = ({ data }) => {
       //autoFit: true,
       marginTop: 0,
       marginRight: 0,
-      paddingRight: 60,
+      paddingLeft: 40,
       angleField: 'value',
       colorField: 'type',
       label: {
