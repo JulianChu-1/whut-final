@@ -15,6 +15,7 @@ export default function Home() {
   const [data, setData] = useState({ main_data: [], pie_data: [], word_data: [] });
   const [markedData, setMarkedData] = useState<MainInfoItemType[]>([]);
   const [metaData, setMetaData] = useState<MainInfoItemType[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const PieChart = dynamic<DemoPieProps>(() => import('./chart_pie'), {
     ssr: false // Tell Next.js not to render this on the server
@@ -36,6 +37,7 @@ export default function Home() {
   // const metaData = data_mainInfo.slice(3);
 
   const handleAnalysisFinish = async (value : AnalysisPosterType) => {
+    setLoading(true);
     const datas = await analysisWeibo(value.user_id)
     if (!datas.main_data) {
       message.error("未找到该用户");
@@ -44,6 +46,9 @@ export default function Home() {
     setData(datas)
     setMarkedData(datas.main_data.slice(0, 4));
     setMetaData(datas.main_data.slice(4));
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000)
   }
 
   useEffect(() => {
@@ -100,7 +105,7 @@ export default function Home() {
             </Col>
           </Row>
         </Form>
-        <Card title="基本信息">
+        <Card title="基本信息" loading={loading}>
           <List
             itemLayout="horizontal"
             dataSource={markedData}
@@ -128,12 +133,12 @@ export default function Home() {
         </Card>
       </Col>
       <Col span={8.5}>
-        <Card title = "微博类型占比" >
+        <Card title = "微博类型占比" loading={loading} className={styles.loadingCard}>
           <PieChart data={data.pie_data}/>
         </Card>
       </Col>
       <Col span={8.5}>
-        <Card title = "兴趣分析词云图" >
+        <Card title = "兴趣分析词云图" loading={loading} className={styles.loadingCard}>
           <WordChart data={data.word_data}/>
         </Card>
       </Col>

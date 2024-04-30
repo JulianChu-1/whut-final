@@ -36,7 +36,6 @@ export default function Home() {
           onClick={() =>{
             router.push({
               pathname: '/analysis',
-              query: { signal: false }, // 传递 user_id
             });
           }
           }

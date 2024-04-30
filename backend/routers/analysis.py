@@ -129,8 +129,9 @@ async def analysis_by_posterid(user_id):
     stop_list = []
 
     try:
-        stopwords = open('stopwords.txt', 'r', encoding='utf-8')
+        stopwords = open('static/stopwords.txt', 'r', encoding='utf-8')
     except FileNotFoundError:
+        print("no stopwords file")
         stopwords = []
     
     for line in stopwords:
@@ -139,27 +140,16 @@ async def analysis_by_posterid(user_id):
     
     user_tweets = collection_weibo.find({"user_id": int(user_id)}, {"text": 1, "_id": 0})
     texts = [tweet['text'] async for tweet in user_tweets] 
+    counts= {}
 
-    word_data = [
-        {
-            "value": 11.7392043070835,
-            "text": "水是",
-            "name": "泰利斯"
-        },
-        {
-            "value": 9.23723855786,
-            "text": "之源",
-            "name": "泰利斯"
-        },
-        {
-            "value": 7.75434839431,
-            "text": "万物",
-            "name": "泰利斯"
-        },
-    ]
+    for text in texts:
+        seg_list = jieba.lcut(text)
+        for word in seg_list:
+            if word not in stop_list and len(word) > 1:
+                counts[word] = counts.get(word, 0) + 1
+    for key, value in counts.items():
+        word_data.append({'text': key, 'value': value})
     
-    
-
     return {
         'main_data': main_data,
         'pie_data': pie_data,
