@@ -139,6 +139,24 @@ async def analysis_by_posterid(user_id):
     
     user_tweets = collection_weibo.find({"user_id": int(user_id)}, {"text": 1, "_id": 0})
     texts = [tweet['text'] async for tweet in user_tweets] 
+
+    word_data = [
+        {
+            "value": 11.7392043070835,
+            "text": "水是",
+            "name": "泰利斯"
+        },
+        {
+            "value": 9.23723855786,
+            "text": "之源",
+            "name": "泰利斯"
+        },
+        {
+            "value": 7.75434839431,
+            "text": "万物",
+            "name": "泰利斯"
+        },
+    ]
     
     
 
@@ -146,4 +164,24 @@ async def analysis_by_posterid(user_id):
         'main_data': main_data,
         'pie_data': pie_data,
         'word_data': word_data,
+    }
+
+@router.get("/api/trend/{user_id}")
+async def trend_by_posterid(user_id):
+    any_data = []
+    area_data = [
+    {"date":"2000-01-01T00:00:00.000Z","category":"娱乐","number":1},
+    {"date":"2000-01-01T00:00:00.000Z","category":"体育","number":1},
+    {"date":"2000-01-02T00:00:00.000Z","category":"娱乐","number":1},
+    {"date":"2000-01-03T00:00:00.000Z","category":"娱乐","number":1},
+    {"date":"2000-01-05T00:00:00.000Z","category":"娱乐","number":1},
+    {"date":"2000-01-10T00:00:00.000Z","category":"娱乐","number":1},
+    {"date":"2000-01-12T00:00:00.000Z","category":"体育","number":1},
+    {"date":"2000-01-13T00:00:00.000Z","category":"娱乐","number":1},
+    {"date":"2000-01-21T00:00:00.000Z","category":"娱乐","number":1},
+    ]
+
+    return {
+        'any_data': any_data,
+        'area_data': area_data,
     }

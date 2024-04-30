@@ -10,7 +10,7 @@
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background: url(../../../public/login.jpg) no-repeat;
+    background: url(../../../public/login2.webp) no-repeat;
     background-size: cover;
     background-position: center;
     font-family: 'Montserrat', sans-serif;
@@ -53,4 +53,29 @@
 .loginBtn {
     margin-left: 118px;
     width: 100px;
+}
+
+.footer {
+    text-align: center;
+    width: 100%;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    color: rgba(31, 31, 31, 0.8);
+    background-color: transparent;
+}
+
+.footerIcon :hover {
+    color: rgba(31, 31, 31, 0.6);
+}
+
+.footerIcon,
+.footerText {
+  margin-bottom: 5px; /* 根据需要调整间距 */
+}
+
+.footerIcon a {
+  color: inherit; /* 让链接颜色和文本颜色一致，也可以设定特定颜色 */
+  font-size: 24px; /* 根据需要调整图标大小 */
 }

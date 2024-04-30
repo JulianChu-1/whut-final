@@ -2,6 +2,7 @@ import { Button, Col, Form, Input, Row, Space, Mentions, Card, List, Typography,
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import debounce from 'lodash.debounce';
 import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
 
 import { analysisWeibo } from "@/api";
 import { Content } from "@/components";
@@ -10,17 +11,19 @@ import { AnalysisPosterType, DemoPieProps, DemoWordCloudProps, MainInfoItemType 
 
 export default function Home() {
   const [form] = Form.useForm()
+  const router = useRouter()
   const [data, setData] = useState({ main_data: [], pie_data: [], word_data: [] });
   const [markedData, setMarkedData] = useState<MainInfoItemType[]>([]);
   const [metaData, setMetaData] = useState<MainInfoItemType[]>([]);
 
-  const PieChart = dynamic<DemoPieProps>(() => import('./pie_chart'), {
+  const PieChart = dynamic<DemoPieProps>(() => import('./chart_pie'), {
     ssr: false // Tell Next.js not to render this on the server
   });
 
-  const WordChart = dynamic<DemoWordCloudProps>(() => import('./word_chart'), {
+  const WordChart = dynamic<DemoWordCloudProps>(() => import('./chart_word'), {
     ssr: false 
   });
+
   // const main_data = [
   //   { label: "博主id", value: "123" },
   //   { label: "用户昵称", value: "陶喆" },
@@ -43,10 +46,35 @@ export default function Home() {
     setMetaData(datas.main_data.slice(4));
   }
 
+  useEffect(() => {
+    const analysisUserId = localStorage.getItem("analysisUserId")
+    if (analysisUserId) {
+      form.setFieldsValue({ user_id: analysisUserId })
+      handleAnalysisFinish({ user_id: analysisUserId })
+      console.log("Before remove:", localStorage.getItem("analysisUserId"));
+      localStorage.removeItem("analysisUserId");
+      console.log("After remove:", localStorage.getItem("analysisUserId"));
+    }
+  }, [])
+
   return <>
-    <Content title="博主分析">
+    <Content
+      title="博主兴趣总体分析"
+      operation={
+          <Button 
+          type="primary"
+          onClick={() =>{
+            router.push("/analysis/trend")
+            localStorage.setItem('analysisUserId', form.getFieldValue("user_id"));
+          }
+          }
+          >
+            查看趋势分析
+          </Button>
+      }
+    >
     <Row gutter={[16,16]}>
-      <Col style={{width: '30%'}}>
+      <Col span={7}>
         <Form
           name="analysis"
           form={form}
@@ -99,13 +127,13 @@ export default function Home() {
           />
         </Card>
       </Col>
-      <Col style={{width: '35%'}}>
-        <Card title = "pie" >
+      <Col span={8.5}>
+        <Card title = "微博类型占比" >
           <PieChart data={data.pie_data}/>
         </Card>
       </Col>
-      <Col style={{width: '35%'}}>
-        <Card title = "WordCloud" >
+      <Col span={8.5}>
+        <Card title = "兴趣分析词云图" >
           <WordChart data={data.word_data}/>
         </Card>
       </Col>

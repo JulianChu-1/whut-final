@@ -29,7 +29,7 @@ export default function Home() {
     setIsModalOpen(false);
     setIsLoading(true);
     router.push("/weibo")
-    message.success(`共爬取${responseData}条微博`);
+    message.success(`又添加了${responseData}条微博`);
   }
 
   const modalTitle = isLoading === false ? "爬取成功！" : "爬取中..."

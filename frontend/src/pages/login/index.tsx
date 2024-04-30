@@ -3,10 +3,11 @@ import classnames from "classnames";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined, GithubOutlined } from '@ant-design/icons';
 
 import styles from "./index.module.css";
 import { login } from "@/api";
+import { Footer } from "antd/es/layout/layout";
 
 export default function Login() {
   const router = useRouter();
@@ -85,9 +86,18 @@ export default function Login() {
               </Button>
             </Form.Item>
           </Form>
-
         </div>
       </main>
+      <footer className={styles.footer}>
+        <div className={styles.footerIcon}>
+          <a href="https://github.com/JulianChu-1/whut-final">
+            <GithubOutlined />
+          </a>
+        </div>
+        <div className={styles.footerText}>
+          © Powered by JulianChu
+        </div>
+      </footer>
     </>
   );
 }

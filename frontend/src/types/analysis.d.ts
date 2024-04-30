@@ -18,3 +18,7 @@ export interface MainInfoItemType {
 export interface AnalysisPosterType {
     user_id: string;
 }
+
+export interface DemoAreaProps {
+    data: { date: string; category: string; number: number}[];
+}
