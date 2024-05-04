@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Row, Space, Mentions, Card, List, Typography, message } from "antd";
+import { Button, Col, Form, Input, Row, Space, Mentions, Card, List, Typography, message, Skeleton } from "antd";
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import debounce from 'lodash.debounce';
 import dynamic from "next/dynamic";
@@ -8,6 +8,8 @@ import { analysisWeibo } from "@/api";
 import { Content } from "@/components";
 import styles from "./index.module.css";
 import { AnalysisPosterType, DemoPieProps, DemoWordCloudProps, MainInfoItemType } from "@/types";
+// import DemoWordCloud from "./chart_word";
+// import DemoPie from "./chart_pie";
 
 export default function Home() {
   const [form] = Form.useForm()
@@ -18,11 +20,13 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
 
   const PieChart = dynamic<DemoPieProps>(() => import('./chart_pie'), {
-    ssr: false // Tell Next.js not to render this on the server
+    ssr: false,  // Tell Next.js not to render this on the server
+    loading: () => <Skeleton active/> 
   });
 
   const WordChart = dynamic<DemoWordCloudProps>(() => import('./chart_word'), {
-    ssr: false 
+    ssr: false,
+    loading: () => <Skeleton active/>
   });
 
   // const main_data = [
@@ -46,9 +50,10 @@ export default function Home() {
     setData(datas)
     setMarkedData(datas.main_data.slice(0, 4));
     setMetaData(datas.main_data.slice(4));
-    setTimeout(() => {
+
+    setTimeout (() => {
       setLoading(false);
-    }, 2000)
+    }, 1000)
   }
 
   useEffect(() => {
@@ -56,10 +61,9 @@ export default function Home() {
     if (analysisUserId) {
       form.setFieldsValue({ user_id: analysisUserId })
       handleAnalysisFinish({ user_id: analysisUserId })
-      console.log("Before remove:", localStorage.getItem("analysisUserId"));
       localStorage.removeItem("analysisUserId");
-      console.log("After remove:", localStorage.getItem("analysisUserId"));
     }
+    localStorage.removeItem("analysisUserId");
   }, [])
 
   return <>
@@ -138,8 +142,8 @@ export default function Home() {
         </Card>
       </Col>
       <Col span={8.5}>
-        <Card title = "兴趣分析词云图" loading={loading} className={styles.loadingCard}>
-          <WordChart data={data.word_data}/>
+        <Card title = "兴趣分析词云图" loading={loading} className={styles.loadingCard}>.
+          <WordChart data={data.word_data} />
         </Card>
       </Col>
     </Row>

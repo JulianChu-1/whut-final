@@ -1,5 +1,5 @@
 export interface DemoPieProps {
-    data: { type: string; value: number }[];
+    data: { value: number; name: string }[];
 }
 
 export interface DemoColumnProps {

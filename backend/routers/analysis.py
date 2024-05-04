@@ -2,7 +2,8 @@ import re
 from fastapi import APIRouter
 import motor.motor_asyncio
 from datetime import datetime, timedelta, date
-from collections import Counter
+from dateutil import parser
+from collections import Counter, defaultdict
 import json
 import jieba
 
@@ -123,7 +124,7 @@ async def analysis_by_posterid(user_id):
     ]
 
     async for doc in collection_weibo.aggregate(pipeline_pie):
-        pie_data.append({'type': doc['_id'], 'value': doc['count']})
+        pie_data.append({'value': doc['count'], 'name': doc['_id'], })
 
     #word_data
     stop_list = []
@@ -156,22 +157,72 @@ async def analysis_by_posterid(user_id):
         'word_data': word_data,
     }
 
+
 @router.get("/api/trend/{user_id}")
 async def trend_by_posterid(user_id):
-    any_data = []
-    area_data = [
-    {"date":"2000-01-01T00:00:00.000Z","category":"娱乐","number":1},
-    {"date":"2000-01-01T00:00:00.000Z","category":"体育","number":1},
-    {"date":"2000-01-02T00:00:00.000Z","category":"娱乐","number":1},
-    {"date":"2000-01-03T00:00:00.000Z","category":"娱乐","number":1},
-    {"date":"2000-01-05T00:00:00.000Z","category":"娱乐","number":1},
-    {"date":"2000-01-10T00:00:00.000Z","category":"娱乐","number":1},
-    {"date":"2000-01-12T00:00:00.000Z","category":"体育","number":1},
-    {"date":"2000-01-13T00:00:00.000Z","category":"娱乐","number":1},
-    {"date":"2000-01-21T00:00:00.000Z","category":"娱乐","number":1},
-    ]
+    word_data, area_data = [], []
+
+    #word_data 创建
+    used_words = set()
+
+    latest_weibo = await collection_weibo.find_one({"user_id": int(user_id)}, sort=[("created_at", -1)])
+    now = parser.parse(latest_weibo["created_at"])
+    date_ranges = {
+        "最近五天": now - timedelta(days=5),
+        "最近十四天": now - timedelta(days=14),
+        "最近一个月": now - timedelta(days=30),
+        "最近三个月": now - timedelta(days=90),
+        "最近半年": now - timedelta(days=180),
+        "全部": None
+    }
+
+    for label, start_date in date_ranges.items():
+        if start_date:
+            query = {"user_id": int(user_id), "created_at": {"$gte": start_date.isoformat()}}
+
+        weibos = collection_weibo.find(query, {"text": 1, "_id": 0})
+        word_frequency = {}
+
+        async for weibo in weibos:
+            words = jieba.cut(weibo['text'])
+            for word in words:
+                if len(word) > 1 and word not in used_words:
+                    if word not in word_frequency:
+                        word_frequency[word] = 1
+                    else:
+                        word_frequency[word] += 1
+        
+        top_three = sorted(word_frequency.items(), key=lambda x: x[1], reverse=True)[:3]
+        top_three_words = ' '.join([word[0] for word in top_three])
+
+        used_words.update([word[0] for word in top_three])
+
+        word_data.append({"label": label, "value": top_three_words})
+
+
+    #area_data 创建
+    user_info_weibos = collection_weibo.find({"user_id": int(user_id)}, {"category": 1, "created_at": 1}).sort("created_at", 1)
+    grouped_data = defaultdict(lambda: defaultdict(int))
+    
+    async for weibo_info in user_info_weibos:
+        original_datetime = datetime.strptime(weibo_info['created_at'], '%Y-%m-%dT%H:%M:%S').replace(hour = 0, minute = 0, second = 0, microsecond = 0)
+        date_str = original_datetime.isoformat() + ".000Z"
+        category = weibo_info['category']
+        grouped_data[date_str][category] += 1
+
+    for date, categories in grouped_data.items():
+        for category, count in categories.items():
+            area_data.append({
+                "date": date,
+                "category": category,
+                "number": count
+            })
+
+    # area_data = [
+    #     {"date":"2000-01-01T00:00:00.000Z","category":"娱乐","number":1},
+    # ]
 
     return {
-        'any_data': any_data,
+        'word_data': word_data,
         'area_data': area_data,
     }
