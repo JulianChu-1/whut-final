@@ -17,11 +17,12 @@ const MyEChartsComponent: React.FC = () => {
       },
       dataset: {
         source: [
-          ['product', '2012', '2013', '2014', '2015', '2016', '2017'],
-          ['Milk Tea', 56.5, 82.1, 88.7, 70.1, 53.4, 85.1],
-          ['Matcha Latte', 51.1, 51.4, 55.1, 53.3, 73.8, 68.7],
-          ['Cheese Cocoa', 40.1, 62.2, 69.5, 36.4, 45.2, 32.5],
-          ['Walnut Brownie', 25.2, 37.1, 41.2, 18, 33.9, 49.1]
+          ['类别', '最近五天', '最近十四天', '最近一个月', '最近三个月', '最近半年', '全部'],
+          ['娱乐', 1, 5, 8, 20, 34, 59],
+          ['体育', 5, 16, 30, 73, 152, 203],
+          ['教育', 0, 2, 3, 7, 13, 21],
+          ['经济', 1, 6, 11, 19, 32, 51],
+          ['科技', 2, 3, 10, 53, 68, 91]
         ]
       },
       xAxis: { type: 'category' },
@@ -32,14 +33,15 @@ const MyEChartsComponent: React.FC = () => {
         { type: 'line', smooth: true, seriesLayoutBy: 'row', emphasis: { focus: 'series' } },
         { type: 'line', smooth: true, seriesLayoutBy: 'row', emphasis: { focus: 'series' } },
         { type: 'line', smooth: true, seriesLayoutBy: 'row', emphasis: { focus: 'series' } },
+        { type: 'line', smooth: true, seriesLayoutBy: 'row', emphasis: { focus: 'series' } },
         {
           type: 'pie',
           id: 'pie',
           radius: '30%',
           center: ['50%', '25%'],
           emphasis: { focus: 'self' },
-          label: { formatter: '{b}: {@2012} ({d}%)' },
-          encode: { itemName: 'product', value: '2012', tooltip: '2012' }
+          label: { formatter: '{b}: {@最近五天} ({d}%)' },
+          encode: { itemName: '类别', value: '最近五天', tooltip: '最近五天' }
         }
       ]
     });

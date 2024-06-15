@@ -18,6 +18,33 @@ export default function Home() {
   //   ssr: false
   // })
 
+  const word_data = [
+    {
+      "label": "最近五天",
+      "value": "MSI BLG 比赛"
+    },
+    {
+      "label": "最近十四天",
+      "value": "MSI 厉害 韩国"
+    },
+    {
+      "label": "最近一个月",
+      "value": "足球 得分 偶像"
+    },
+    {
+      "label": "最近三个月",
+      "value": "球队 比赛 中国"
+    },
+    {
+      "label": "最近半年",
+      "value": "演出 球迷 战术"
+    },
+    {
+      "label": "全部",
+      "value": "演出 希望 开心"
+    }
+  ]
+
   const DoubleChart = dynamic(() => import('./chart_e'), {
     ssr: false
   })
@@ -55,7 +82,7 @@ export default function Home() {
       <Col span={8}>
         <Card title="用户关键词趋势分析">
           <List itemLayout="horizontal"
-                dataSource={data.word_data}
+                dataSource={word_data}
                 renderItem={(item : MainInfoItemType) => (
                   <List.Item style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Typography.Text>

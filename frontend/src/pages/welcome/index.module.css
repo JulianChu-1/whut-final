@@ -28,9 +28,35 @@
     padding: 5px;
   }
 
+  .instructionItem {
+    font-size: medium;
+    flex: 1 0 auto;
+    /* width: 50%; */
+    margin-bottom: 0px;
+    padding: 3px;
+  }
+
+  .welcomeList {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center; /* 将项目居中对齐 */
+    justify-content: center; /* 将项目居中对齐 */
+  }
+  
+  .welcomeItem {
+    font-size: medium;
+    flex: 1 0 auto;
+    /* width: 50%; */
+    margin-bottom: 0px;
+    padding: 3px;
+    display: flex; /* 添加 flex 布局 */
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+  } 
+
   .innerCard {
     width: 90%;
-
   }
 
   .cardLink {

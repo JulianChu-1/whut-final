@@ -82,13 +82,16 @@ export default function Home() {
         <Row gutter={[16, 16]}>
           <Col span={8}>
             <Card title="欢迎使用" bordered={true} extra={<a href="#" className={styles.cardLink}>More</a>}>
-              <div className={styles.hotSearchList}>
-                {/* <div className={styles.hotSearchItem}>
-                  1. 在分析微博用户兴趣前请先爬取其微博
+              <div className={styles.welcomeList}>
+                <div className={styles.welcomeItem}>
+                  欢迎使用微博用户兴趣分析系统
                 </div>
-                <div className={styles.hotSearchItem}>
-                  2. 
-                </div> */}
+                <div className={styles.welcomeItem}>
+                  智能分析  定制体验
+                </div>
+                <div className={styles.welcomeItem}>
+                  见微知著  析文解趣
+                </div>
               </div>
             </Card>
           </Col>
@@ -121,8 +124,18 @@ export default function Home() {
             </Card>
           </Col>
           <Col span={8}>
-            <Card title="模型简介" bordered={true}>
-              Card content
+            <Card title="使用指导" bordered={true}>
+              <div className={styles.hotSearchList}>
+                <div className={styles.instructionItem}>
+                  1. 在分析微博用户兴趣前请先爬取其微博
+                </div>
+                <div className={styles.instructionItem}>
+                  2. 请提前获取要爬取微博用户的uid
+                </div>
+                <div className={styles.instructionItem}>
+                  3. 分析时间较长，请耐心等待
+                </div>
+              </div>
             </Card>
           </Col>
         </Row>

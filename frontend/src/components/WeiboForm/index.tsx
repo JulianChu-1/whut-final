@@ -98,9 +98,11 @@ const WeiboForm: React.FC<WeiboFormType> = ({ title, editData }) => {
           >
             <Select
             options={[
-                { value: "jack", label: "jack"},
-                { value: "lucy", label: "lucy"},
-                { value: "disabled", label: "disabled"},
+              { value: "经济", label: "经济"},
+              { value: "教育", label: "教育"},
+              { value: "科技", label: "科技"},
+              { value: "娱乐", label: "娱乐"},
+              { value: "体育", label: "体育"},
             ]}>
             </Select>
           </Form.Item>
